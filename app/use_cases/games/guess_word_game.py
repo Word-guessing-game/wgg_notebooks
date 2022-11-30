@@ -1,15 +1,14 @@
 ''' Contains Guess word game flow '''
 
-from app.models.word_corpus import WordCorpus
 from app.use_cases.console_interface import ConsoleInterface
 
 class GuestWordGame:
   def __init__(self, corpus_class):
     self.interface = ConsoleInterface()
-    self.model_name = 'text8'
-    self.word_corpus = corpus_class(self.model_name)
+    self.word_corpus = corpus_class()
     self.hidden_word = self.word_corpus.random_word()
     print(f'--------------------- debug info: {self.hidden_word=} --------------------------')
+    self.word_corpus.prepare(self.hidden_word)
 
   def run(self):
     ''' Run interactive game in terminal '''
