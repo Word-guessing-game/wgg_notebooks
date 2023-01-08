@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "wgg-app"
+version = "0.1.0"
+description = ""
+authors = ["LinkaG <z.gilvanova@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "wgg_app"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^1.13.1"
+transformers = "^4.25.1"
+pymongo = {extras = ["srv"], version = "^4.3.3"}
+fastapi = "^0.89.0"
+fastapi-health = "^0.4.0"
+uvicorn = "^0.20.0"
+scikit-learn = "^1.2.0"
+poetry-dotenv-plugin = "^0.1.0"
+black = {extras = ["d"], version = "^22.12.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.11.4"
+flake8 = "^6.0.0"
+black = "^22.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
