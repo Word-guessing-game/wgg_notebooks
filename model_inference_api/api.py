@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 from utils import get_word_dict, get_word_list_json, get_database
+from schemas import WordPosition
 
 load_dotenv()
 host = os.environ.get("HOST")
@@ -63,14 +64,14 @@ async def get_collections_names():
 
 
 @app.post("/get_word_position", status_code=200)
-async def get_word_position_in_collection(n_game: str = "game1", word: str = "country"):
+async def get_word_position_in_collection(wordPosition: WordPosition):
     """Returns word position in requested game."""
-    query = {"word": word}
-    result = mongodb[n_game].find(query)
+    query = {"word": wordPosition.game_word}
+    result = mongodb[wordPosition.n_game].find(query)
     word_position = []
     for i in result:
         word_position.append(i.get("position"))
-    result_obj = {"word": word, "position": word_position[0]}
+    result_obj = {"word": wordPosition.game_word, "position": word_position[0]}
     return result_obj
 
 
