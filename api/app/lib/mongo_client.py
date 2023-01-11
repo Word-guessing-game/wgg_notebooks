@@ -11,7 +11,7 @@ class MongoClient(metaclass = Singleton):
     ''' Преверяет статус соединения с mongodb '''
     return self.client.server_info()['version'] is not None
 
-  def collection(self, collection_name):
+  def collection(self, collection_name: str):
     ''' Возвращает коллекцию по имени '''
     return self.db[collection_name]
 
@@ -19,20 +19,16 @@ class MongoClient(metaclass = Singleton):
 
   def __mongo_user_name(self):
     ''' Из переменных окружения получает имя пользователя mongodb '''
-    print(f"{os.getenv('MONGO_USER_NAME')=}")
     return os.getenv('MONGO_USER_NAME')
 
   def __mongo_password(self):
     ''' Из переменных окружения получает пароль пользователя mongodb '''
-    print(f"{os.getenv('MONGO_USER_PASSWORD')=}")
     return os.getenv('MONGO_USER_PASSWORD')
 
   def __mongo_database_name(self):
     ''' Из переменных окружения получает имя БД mongodb '''
-    print(f"{os.getenv('MONGO_DATABASE_NAME')=}")
     return os.getenv('MONGO_DATABASE_NAME')
 
   def __mongo_host(self):
     ''' Из переменных среды получает адрес хоста с mongodb '''
-    print(f"{os.getenv('MONGO_HOST')=}")
     return os.getenv('MONGO_HOST')
