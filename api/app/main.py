@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from api.lib.game import GuestWordGame
+from app.lib.game import GuestWordGame
 
 class Guess(BaseModel):
   word: str

@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  mongo:
+    image: mongo
+    environment:
+      TZ: Europe/Moscow
+    ports:
+      - 27017:27017

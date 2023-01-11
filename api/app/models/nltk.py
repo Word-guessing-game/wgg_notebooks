@@ -5,7 +5,7 @@ import re
 from itertools import product
 from nltk.corpus import wordnet as wn
 from nltk.corpus import reader as wn_reader
-from api.models.word_corpus import WordCorpus
+from app.models.word_corpus import WordCorpus
 
 NOUN = 'n'
 

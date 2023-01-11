@@ -1,8 +1,8 @@
 ''' Contains Guess word game flow '''
-from api.models.nltk import Nltk
-from api.lib.mongo_client import MongoClient
+from app.models.nltk import Nltk
+from app.lib.mongo_client import MongoClient
 
-class GuestWordGame:
+class Game:
   def __init__(self):
     self.word_corpus = Nltk()
     self.hidden_word = self.word_corpus.random_word()
