@@ -2,6 +2,11 @@
 
 ## Режим разработки
 
+### Запуск сервисов
+```bash
+docker-compose up
+```
+
 ### Запуск API
 ```bash
 ./script/start_api.sh

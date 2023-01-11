@@ -1,7 +1,13 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from api.lib.game import GuestWordGame
+
+class Guess(BaseModel):
+  word: str
 
 app = FastAPI()
+app.game = None
 
 app.add_middleware(
   CORSMiddleware,
@@ -14,3 +20,20 @@ app.add_middleware(
 @app.get("/hello-world")
 async def read_main():
   return {"msg": "Hello World"}
+
+@app.post("/start-game")
+async def start_game():
+  app.game = GuestWordGame()
+  return {"msg": "Game started"}
+
+@app.post("/reset-game")
+async def reset_game():
+  app.game = GuestWordGame()
+  return {"msg": "Game restarted"}
+
+@app.post("/guess-word")
+async def guess(request: Guess):
+  print(f'{request.word=}')
+
+  result = app.game.check(request.word)
+  return result
