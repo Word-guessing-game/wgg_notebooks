@@ -5,23 +5,24 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from utils import get_word_dict, get_word_list_json, get_database
-from schemas import WordPosition
+from .utils import get_word_dict, get_word_list_json, get_database
+from .schemas import WordPosition
 
 load_dotenv()
-host = os.environ.get("HOST")
+host = os.getenv("API_HOST")
+port = os.getenv("API_PORT")
 mongodb = get_database()
 
 
-if host is None:
-    raise ValueError("Environment variable HOST should be defined!")
+if host is None or port is None:
+    raise ValueError("Environment variables HOST && PORT should be defined!")
 
 word_dict = get_word_dict()
 
 app = FastAPI()
 
 origins = [
-    f"{host}:3000",
+    f"{host}:{port}",
     "http://localhost",
     "http://localhost:3000",
 ]

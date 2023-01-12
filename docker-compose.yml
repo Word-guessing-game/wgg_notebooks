@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.api
+    image: wgg-app-api-production
+    network_mode: host
+
+  frontend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.frontend
+    image: wgg-app-frontend-production
+    network_mode: host
+
+  mongo:
+    image: mongo
+    environment:
+      TZ: Europe/Moscow
+    ports:
+      - 27017:27017
+
+  nginx:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.nginx
+    image: nginx:1.23.2-alpine
+    network_mode: host
+    volumes:
+      - ./deploy/nginx:/etc/nginx/conf.d

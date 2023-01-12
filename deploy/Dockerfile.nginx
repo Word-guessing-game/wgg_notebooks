@@ -1,0 +1,6 @@
+FROM nginx:stable-alpine
+ENV NGINX_CONFIG_PATH=/etc/nginx
+COPY ./deploy/nginx/nginx.conf $NGINX_CONFIG_PATH/.
+COPY ./deploy/nginx/backend.conf $NGINX_CONFIG_PATH/sites-enabled/backend.conf
+COPY ./deploy/nginx/frontend.conf $NGINX_CONFIG_PATH/sites-enabled/frontend.conf
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
