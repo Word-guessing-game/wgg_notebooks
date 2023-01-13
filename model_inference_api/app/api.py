@@ -9,22 +9,22 @@ from .utils import get_word_dict, get_word_list_json, get_database
 from .schemas import WordPosition
 
 load_dotenv()
-host = os.getenv("API_HOST")
-port = os.getenv("API_PORT")
+cors = os.getenv("CORS_ENABLED")
 mongodb = get_database()
 
 
-if host is None or port is None:
-    raise ValueError("Environment variables HOST && PORT should be defined!")
+if cors is None:
+    raise ValueError("Environment variables CORS_ENABLED should be defined!")
 
 word_dict = get_word_dict()
 
 app = FastAPI()
 
 origins = [
-    f"{host}:{port}",
-    "http://localhost",
-    "http://localhost:3000",
+    '*'
+    # f"{cors}",
+    # "http://localhost",
+    # "http://localhost:3000",
 ]
 
 app.add_middleware(
@@ -72,6 +72,10 @@ async def get_word_position_in_collection(wordPosition: WordPosition):
     word_position = []
     for i in result:
         word_position.append(i.get("position"))
+
+    if len(word_position) == 0:
+        return {"word": wordPosition.game_word, "position": 9999999 }
+
     result_obj = {"word": wordPosition.game_word, "position": word_position[0]}
     return result_obj
 

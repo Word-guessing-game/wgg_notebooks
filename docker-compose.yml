@@ -14,13 +14,6 @@ services:
     image: wgg-app-frontend-production
     network_mode: host
 
-  mongo:
-    image: mongo
-    environment:
-      TZ: Europe/Moscow
-    ports:
-      - 27017:27017
-
   nginx:
     build:
       context: .
@@ -29,3 +22,28 @@ services:
     network_mode: host
     volumes:
       - ./deploy/nginx:/etc/nginx/conf.d
+
+  mongo:
+    container_name: wgg_game_app_mongo2
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: wgg_game
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/app_mongo_root_password
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_PASSWORD_FILE: /run/secrets/app_mongo_password
+      MONGO_USER: admin
+    secrets:
+      - app_mongo_password
+      - app_mongo_root_password
+    volumes:
+      - ./deploy/mongo/init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    network_mode: host
+
+secrets:
+  app_mongo_password:
+    file: ./deploy/mongo/password
+  app_mongo_root_password:
+    file: ./deploy/mongo/root_password
+
+volumes:
+  mongo:

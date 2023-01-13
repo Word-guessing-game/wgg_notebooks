@@ -10,14 +10,12 @@ from transformers import BertModel, BertTokenizer
 def get_database():
     # Provide the mongodb atlas url to connect python to mongodb using pymongo
     mongo_connection = os.environ.get("MONGO_CONNECTION")
-    # user = os.environ.get("MONGO_DB_USER")
-    # passwd = os.environ.get("MONGO_DB_PASSSWD")
-    # db= os.environ.get("MONGO_DB_NAME")
+    mongo_db_name = os.getenv('MONGO_DB_NAME')
     CONNECTION_STRING = f"mongodb://{mongo_connection}/"
 
     # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
     client = MongoClient(CONNECTION_STRING)
-    db = client.wgg_game
+    db = client[mongo_db_name]
     # Create the database for our example (we will use the same database throughout the tutorial
     return db
 
