@@ -1,0 +1,2 @@
+FROM mongo
+COPY ./deploy/mongo/init.js /docker-entrypoint-initdb.d/

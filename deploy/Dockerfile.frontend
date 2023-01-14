@@ -1,0 +1,21 @@
+FROM node:18.0.0-alpine
+
+RUN apk add g++ make py3-pip
+
+ENV NODE_ENV=production
+ENV LANG=C.UTF-8
+ENV LANGUAGE=en_US:en
+ENV NODE_OPTIONS=--openssl-legacy-provider
+ENV LC_ALL=C.UTF-8
+
+ENV APP_PATH=/usr/app/frontend
+WORKDIR $APP_PATH
+EXPOSE 3000
+COPY ./frontend_app/ ./
+RUN npm --version \
+    && node --version \
+    && npm i \
+    && npm i -g serve \
+    && npm run build
+
+CMD ["npm", "run", "serve"]

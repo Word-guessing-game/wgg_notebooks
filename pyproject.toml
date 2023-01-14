@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["LinkaG <z.gilvanova@yandex.ru>"]
 readme = "README.md"
-packages = [{include = "wgg_app"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"

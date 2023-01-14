@@ -1,4 +1,5 @@
 import "macro-css";
+import env from "react-dotenv";
 import Dropdown from "./components/Dropdown";
 import Rules from "./components/Rules";
 import Currentraw from "./components/Currentraw";
@@ -23,10 +24,15 @@ function App() {
   const [errorRequest, setErrorRequest] = React.useState();
 
   React.useEffect(() => {
-    fetch("http://127.0.0.1:8000/get_games_numbers", {
+    fetch(`${env.API_HOST}/get_games_numbers`, {
       method: "POST",
+      mode: 'cors',
       headers: {
         accept: "application/json",
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Request-Method': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
       },
     })
       .then((res) => {
@@ -39,11 +45,16 @@ function App() {
 
   React.useEffect(() => {
     if ((currentGame.length > 1) & (data.length > 1)) {
-      fetch("http://127.0.0.1:8000/get_word_position", {
+      fetch(`${env.API_HOST}/get_word_position`, {
         method: "POST",
+        mode: 'cors',
         headers: {
-          Accept: "application/json",
+          accept: "application/json",
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Request-Method': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
         },
         body: JSON.stringify({ n_game: currentGame, game_word: data }),
       })
@@ -163,7 +174,7 @@ function App() {
       {win === 1 ? (
         <div><div className="end-msg">
         <p className="bigger">Поздравляем!</p>
-        <p>Вы угадали слово игры  <b>{currentGame}</b></p>  
+        <p>Вы угадали слово игры  <b>{currentGame}</b></p>
       </div>
       <img src="/74US.gif" alt="salute" /></div>
       ) : (
