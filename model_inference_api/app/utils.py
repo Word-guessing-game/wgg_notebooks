@@ -1,4 +1,3 @@
-import os
 import torch
 from scipy.spatial.distance import cosine
 from sklearn.decomposition import PCA
