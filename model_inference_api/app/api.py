@@ -1,14 +1,13 @@
 import os
 
-from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from .lib.env import Env
 from .lib.mongo_client import MongoClient
 from .utils import get_word_dict, get_word_list_json
 from .schemas import WordPosition
 
-load_dotenv()
-cors = os.getenv("CORS_ENABLED")
+cors = Env().get("CORS_ENABLED")
 mongodb = MongoClient().get_database()
 
 

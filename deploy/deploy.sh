@@ -3,7 +3,7 @@
 echo 'Deploy to server'
 echo " - Deployed branch: $(git branch --show-current)"
 export APP_PATH="/home/deploy/wgg-app"
-
+export HOST="158.160.24.191"
 rsync -e "ssh -o StrictHostKeyChecking=no" \
       --progress -azhr \
       --exclude ".git/*" \
