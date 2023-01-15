@@ -3,14 +3,13 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-
-
-from .utils import get_word_dict, get_word_list_json, get_database
+from .lib.mongo_client import MongoClient
+from .utils import get_word_dict, get_word_list_json
 from .schemas import WordPosition
 
 load_dotenv()
 cors = os.getenv("CORS_ENABLED")
-mongodb = get_database()
+mongodb = MongoClient().get_database()
 
 
 if cors is None:
@@ -20,12 +19,7 @@ word_dict = get_word_dict()
 
 app = FastAPI()
 
-origins = [
-    '*'
-    # f"{cors}",
-    # "http://localhost",
-    # "http://localhost:3000",
-]
+origins = ['*']
 
 app.add_middleware(
     CORSMiddleware,
