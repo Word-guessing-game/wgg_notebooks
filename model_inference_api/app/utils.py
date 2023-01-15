@@ -1,23 +1,8 @@
 import os
-
 import torch
-from pymongo import MongoClient
 from scipy.spatial.distance import cosine
 from sklearn.decomposition import PCA
 from transformers import BertModel, BertTokenizer
-
-
-def get_database():
-    # Provide the mongodb atlas url to connect python to mongodb using pymongo
-    mongo_connection = os.environ.get("MONGO_CONNECTION")
-    mongo_db_name = os.getenv('MONGO_DB_NAME')
-    CONNECTION_STRING = f"mongodb://{mongo_connection}/"
-
-    # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
-    client = MongoClient(CONNECTION_STRING)
-    db = client[mongo_db_name]
-    # Create the database for our example (we will use the same database throughout the tutorial
-    return db
 
 
 def get_word_dict():
