@@ -1,11 +1,11 @@
 import "macro-css";
-import env from "react-dotenv";
 import Dropdown from "./components/Dropdown";
 import Rules from "./components/Rules";
 import Currentraw from "./components/Currentraw";
 import Raw from "./components/Raw";
 import Games from "./components/Games";
 import React, { useCallback } from "react";
+import { fetchFromApi } from './lib/api'
 
 function App() {
   const [isOpened, setIsOpened] = React.useState(false);
@@ -24,55 +24,22 @@ function App() {
   const [errorRequest, setErrorRequest] = React.useState();
 
   React.useEffect(() => {
-    fetch(`${env.API_HOST}/get_games_numbers`, {
-      method: "POST",
-      mode: 'cors',
-      headers: {
-        accept: "application/json",
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Request-Method': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        setGameNumbers(json);
-      });
+    fetchFromApi({ path: '/get_games_numbers' }).then((json) => {
+      setGameNumbers(json);
+    });
   }, []);
 
   React.useEffect(() => {
     if ((currentGame.length > 1) & (data.length > 1)) {
-      fetch(`${env.API_HOST}/get_word_position`, {
-        method: "POST",
-        mode: 'cors',
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-          'Access-Control-Request-Method': '*',
-          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-        },
-        body: JSON.stringify({ n_game: currentGame, game_word: data }),
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then(
-          (json) => {
-            setRequestResult(json);
-            setIsLoaded(true);
-            setErrorRequest();
-          },
-          (error) => {
-            if (error) {
-              setErrorRequest("Извините, я не знаю этого слова");
-            }
-          }
-        );
+      fetchFromApi({ path: '/get_word_position', body: { n_game: currentGame, game_word: data } }).then((json) => {
+        setRequestResult(json);
+        setIsLoaded(true);
+        setErrorRequest();
+      }, (error) => {
+        if (error) {
+          setErrorRequest("Извините, я не знаю этого слова");
+        }
+      });
     }
   }, [data]);
 
